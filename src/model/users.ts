@@ -1,4 +1,4 @@
-import { uuid } from 'uuidv4';
+import { v4 as uuidv4 } from "uuid";
 
 export type NewUser = {
   name: string;
@@ -19,12 +19,16 @@ const users: User[] = [
   },
 ];
 
-export const createUser = (newUser: NewUser): User => {
+export const createUser = (
+  name: string,
+  age: number,
+  hobbies: string[]
+): User => {
   const user: User = {
-    id: uuid(),
-    name: newUser.name,
-    age: newUser.age,
-    hobbies: newUser.hobbies,
+    id: uuidv4(),
+    name,
+    age,
+    hobbies,
   };
   users.push(user);
   return user;
@@ -38,15 +42,20 @@ export const getUserById = (id: string): User | undefined => {
   return users.find((user) => user.id === id);
 };
 
-export const updateUser = (userToUpdate: User): User | null => {
-  const userIndex = users.findIndex((user) => user.id === userToUpdate.id);
+export const updateUser = (
+  id: string,
+  name: string,
+  age: number,
+  hobbies: string[]
+): User | null => {
+  const userIndex = users.findIndex((user) => user.id === id);
   if (userIndex === -1) return null;
 
   const updatedUser = {
-    id: userToUpdate.id,
-    name: userToUpdate.name,
-    age: userToUpdate.age,
-    hobbies: userToUpdate.hobbies,
+    id,
+    name,
+    age,
+    hobbies,
   };
   users[userIndex] = updatedUser;
   return updatedUser;
