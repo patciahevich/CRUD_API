@@ -1,70 +1,69 @@
+// userManager.ts
 import { v4 as uuidv4 } from "uuid";
 
 export type NewUser = {
   name: string;
   age: number;
-  hobbies: string[] | [];
+  hobbies: string[];
 };
 
 export type User = NewUser & {
   id: string;
 };
 
-const users: User[] = [
-  {
-    id: "111",
-    name: "Ivan",
-    age: 18,
-    hobbies: ["swimming"],
-  },
-];
+export class UserManager {
+  private users: User[] = [];
 
-export const createUser = (
-  name: string,
-  age: number,
-  hobbies: string[]
-): User => {
-  const user: User = {
-    id: uuidv4(),
-    name,
-    age,
-    hobbies,
-  };
-  users.push(user);
-  return user;
-};
+  constructor(initialUsers?: User[]) {
+    if (initialUsers) {
+      this.users = initialUsers;
+    } else {
+      this.users = [];
+    }
+  }
+  createUser(name: string, age: number, hobbies: string[]): User {
+    const newUser: User = {
+      id: uuidv4(),
+      name,
+      age,
+      hobbies,
+    };
+    this.users.push(newUser);
+    return newUser;
+  }
 
-export const getUsers = (): User[] => {
-  return users;
-};
+  getUsers(): User[] {
+    return this.users;
+  }
 
-export const getUserById = (id: string): User | undefined => {
-  return users.find((user) => user.id === id);
-};
+  getUserById(id: string): User | undefined {
+    return this.users.find((user) => user.id === id);
+  }
 
-export const updateUser = (
-  id: string,
-  name: string,
-  age: number,
-  hobbies: string[]
-): User | null => {
-  const userIndex = users.findIndex((user) => user.id === id);
-  if (userIndex === -1) return null;
+  updateUser(
+    id: string,
+    name: string,
+    age: number,
+    hobbies: string[]
+  ): User | null {
+    const userIndex = this.users.findIndex((user) => user.id === id);
+    if (userIndex === -1) return null;
 
-  const updatedUser = {
-    id,
-    name,
-    age,
-    hobbies,
-  };
-  users[userIndex] = updatedUser;
-  return updatedUser;
-};
+    const updatedUser: User = {
+      id,
+      name,
+      age,
+      hobbies,
+    };
+    this.users[userIndex] = updatedUser;
+    return updatedUser;
+  }
 
-export const deleteUser = (id: string): boolean => {
-  const userIndex = users.findIndex((user) => user.id === id);
-  if (userIndex === -1) return false;
+  deleteUser(id: string): boolean {
+    const userIndex = this.users.findIndex((user) => user.id === id);
+    if (userIndex === -1) return false;
 
-  users.splice(userIndex, 1);
-  return true;
-};
+    this.users.splice(userIndex, 1);
+    return true;
+  }
+}

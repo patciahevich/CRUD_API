@@ -12,7 +12,8 @@
     "paths": {
       // Alias configuration for module resolution
       "*": ["node_modules/*"]
-    }
+    },
+    "types": ["jest", "node"]
   },
   "include": ["src/**/*.ts"], // Specify files to be included in the project
   "exclude": ["node_modules", "**/*.spec.ts"] // Specify files to be excluded from the project

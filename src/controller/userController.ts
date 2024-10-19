@@ -1,15 +1,10 @@
 import { IncomingMessage, ServerResponse } from "http";
-import {
-  createUser,
-  deleteUser,
-  getUserById,
-  getUsers,
-  updateUser,
-  User,
-} from "../model/users";
+import { User, UserManager } from "../model/users";
 import { getUserData } from "../utils/utils";
 import { validate } from "uuid";
 import { errorResponse, successResponse } from "../response/response";
+
+const userManager = new UserManager();
 
 export async function userController(
   req: IncomingMessage,
@@ -28,7 +23,7 @@ export async function userController(
           );
         }
 
-        const userToGet = getUserById(userId);
+        const userToGet = userManager.getUserById(userId);
 
         if (!userToGet) {
           errorResponse(res, 404, `User with ID ${userId} not found`);
@@ -36,7 +31,7 @@ export async function userController(
           successResponse(res, userToGet, 200);
         }
       } else {
-        successResponse(res, getUsers(), 200);
+        successResponse(res, userManager.getUsers(), 200);
       }
       break;
 
@@ -56,7 +51,7 @@ export async function userController(
             );
           }
 
-          const response = createUser(name, age, hobbies);
+          const response = userManager.createUser(name, age, hobbies);
           successResponse(res, response, 201);
         } catch (err) {
           errorResponse(res, 400, "Invalid type of data");
@@ -86,7 +81,7 @@ export async function userController(
             );
           }
 
-          const response = updateUser(userId, name, age, hobbies);
+          const response = userManager.updateUser(userId, name, age, hobbies);
 
           if (response) {
             successResponse(res, response, 200);
@@ -115,7 +110,7 @@ export async function userController(
           );
         }
 
-        const response = deleteUser(userId);
+        const response = userManager.deleteUser(userId);
         if (response) {
           res.writeHead(204, { "Content-Type": "text/plain" });
           res.end();

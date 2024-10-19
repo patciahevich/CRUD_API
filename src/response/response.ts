@@ -8,7 +8,6 @@ export function successResponse(
 ) {
   res.writeHead(statusCode, { "Content-Type": "application/json" });
   res.end(JSON.stringify(payload));
-  return;
 }
 
 export function errorResponse(
