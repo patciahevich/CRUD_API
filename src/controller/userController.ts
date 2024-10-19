@@ -98,8 +98,10 @@ export async function userController(
           res.end("Invalid type of data");
           return;
         }
+      } else {
+        res.writeHead(400, { "Content-Type": "text/plain" });
+        res.end("Missing userId. A valid userId is required to update a user.");
       }
-    // err - no userId
     case "DELETE":
       if (userId) {
         if (!validate(userId)) {
@@ -109,7 +111,7 @@ export async function userController(
         }
 
         const response = deleteUser(userId);
-        console.log(response)
+        console.log(response);
         if (response) {
           res.writeHead(204, { "Content-Type": "text/plain" });
           res.end(`The user with id ${userId} has been deleted`);
@@ -119,7 +121,9 @@ export async function userController(
           res.end(`The user with id ${userId} not found`);
           return;
         }
+      } else {
+        res.writeHead(400, { "Content-Type": "text/plain" });
+        res.end("Missing userId. A valid userId is required to delete a user.");
       }
-    //err no id
   }
 }
