@@ -1,25 +1,17 @@
 import "dotenv/config";
 import http, { IncomingMessage } from "http";
-import { createUser, getUsers, User } from "./model/users";
-import { getUserData } from "./utils/utils";
+import { userController } from "./controller/userController";
 
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(async (req: IncomingMessage, res) => {
-  if (req.url === "/users" && req.method === "GET") {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(getUsers()));
-  } else if (req.url === "/users" && req.method === "POST") {
-    try {
-      const newUser: User = await getUserData(req);
-      const response = createUser(newUser);
-      res.writeHead(200, {
-        "Content-Type": "application/json",
-      });
-      res.end(JSON.stringify(response));
-    } catch (err) {
-      res.end({ message: err });
-    }
+  if (req.url?.startsWith("/users")) {
+    userController(req, res);
+  } else {
+    res.writeHead(404, { "Content-Type": "text/plain" });
+    res.end(
+      "404 - The requested resource does not exist. Please check the URL."
+    );
   }
 });
 

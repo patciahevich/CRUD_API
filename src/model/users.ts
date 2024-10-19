@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import { uuid } from 'uuidv4';
 
 export type NewUser = {
   name: string;
@@ -21,7 +21,7 @@ const users: User[] = [
 
 export const createUser = (newUser: NewUser): User => {
   const user: User = {
-    id: uuidv4(),
+    id: uuid(),
     name: newUser.name,
     age: newUser.age,
     hobbies: newUser.hobbies,
