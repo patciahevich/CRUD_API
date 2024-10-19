@@ -9,65 +9,69 @@ import {
 } from "../model/users";
 import { getUserData } from "../utils/utils";
 import { validate } from "uuid";
+import { errorResponse, successResponse } from "../response/response";
 
 export async function userController(
   req: IncomingMessage,
-  res: ServerResponse<IncomingMessage> & { req: IncomingMessage }
+  res: ServerResponse<IncomingMessage>
 ) {
   const userId = req.url?.split("/")[2];
+
   switch (req.method) {
     case "GET":
       if (userId) {
         if (!validate(userId)) {
-          res.writeHead(400, { "Content-Type": "text/plain" });
-          res.end(`400 - Invalid userId. The userId must be a valid UUID.`);
-          return;
+          errorResponse(
+            res,
+            400,
+            "Invalid userId. The userId must be a valid UUID."
+          );
         }
 
         const userToGet = getUserById(userId);
 
         if (!userToGet) {
-          res.writeHead(404, { "Content-Type": "text/plain" });
-          res.end(`404 - User with ID ${userId} not found`);
-          return;
+          errorResponse(res, 404, `User with ID ${userId} not found`);
+        } else {
+          successResponse(res, userToGet, 200);
         }
-
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(userToGet));
-        return;
       } else {
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(getUsers()));
-        return;
+        successResponse(res, getUsers(), 200);
       }
+      break;
+
     case "POST":
-      try {
-        const newUser: User = await getUserData(req);
-        const { name, age, hobbies } = newUser;
+      if (userId) {
+        errorResponse(res, 400, "Invalid url");
+      } else {
+        try {
+          const newUser: User = await getUserData(req);
+          const { name, age, hobbies } = newUser;
 
-        if (!name || !age || !hobbies) {
-          res.writeHead(400, { "Content-Type": "text/plain" });
-          res.end("Missing one or more required fields: name, age, hobbies");
-          return;
+          if (!name || !age || !hobbies) {
+            errorResponse(
+              res,
+              400,
+              "Missing one or more required fields: name, age, hobbies"
+            );
+          }
+
+          const response = createUser(name, age, hobbies);
+          successResponse(res, response, 201);
+        } catch (err) {
+          errorResponse(res, 400, "Invalid type of data");
         }
-
-        const response = createUser(name, age, hobbies);
-        res.writeHead(201, {
-          "Content-Type": "application/json",
-        });
-        res.end(JSON.stringify(response));
-        return;
-      } catch (err) {
-        res.writeHead(400, { "Content-Type": "text/plain" });
-        res.end("Invalid type of data");
-        return;
       }
+      break;
+
     case "PUT":
       if (userId) {
         if (!validate(userId)) {
-          res.writeHead(400, { "Content-Type": "text/plain" });
-          res.end(`400 - Invalid userId. The userId must be a valid UUID.`);
-          return;
+          errorResponse(
+            res,
+            400,
+            "Invalid userId. The userId must be a valid UUID."
+          );
         }
 
         try {
@@ -75,55 +79,59 @@ export async function userController(
           const { name, age, hobbies } = newUserData;
 
           if (!name || !age || !hobbies) {
-            res.writeHead(400, { "Content-Type": "text/plain" });
-            res.end("Missing one or more required fields: name, age, hobbies");
-            return;
+            errorResponse(
+              res,
+              400,
+              "Missing one or more required fields: name, age, hobbies"
+            );
           }
 
           const response = updateUser(userId, name, age, hobbies);
 
           if (response) {
-            res.writeHead(200, {
-              "Content-Type": "application/json",
-            });
-            res.end(JSON.stringify(response));
-            return;
+            successResponse(res, response, 200);
           } else {
-            res.writeHead(404, { "Content-Type": "text/plain" });
-            res.end(`404 - User with ID ${userId} not found`);
-            return;
+            errorResponse(res, 404, `404 - User with ID ${userId} not found`);
           }
         } catch (err) {
-          res.writeHead(400, { "Content-Type": "text/plain" });
-          res.end("Invalid type of data");
-          return;
+          errorResponse(res, 400, "Invalid type of data");
         }
       } else {
-        res.writeHead(400, { "Content-Type": "text/plain" });
-        res.end("Missing userId. A valid userId is required to update a user.");
+        errorResponse(
+          res,
+          400,
+          "Missing userId. A valid userId is required to update a user."
+        );
       }
+      break;
+
     case "DELETE":
       if (userId) {
         if (!validate(userId)) {
-          res.writeHead(400, { "Content-Type": "text/plain" });
-          res.end(`400 - Invalid userId. The userId must be a valid UUID.`);
-          return;
+          errorResponse(
+            res,
+            400,
+            "Invalid userId. The userId must be a valid UUID."
+          );
         }
 
         const response = deleteUser(userId);
-        console.log(response);
         if (response) {
           res.writeHead(204, { "Content-Type": "text/plain" });
-          res.end(`The user with id ${userId} has been deleted`);
+          res.end();
           return;
         } else {
-          res.writeHead(404, { "Content-Type": "text/plain" });
-          res.end(`The user with id ${userId} not found`);
-          return;
+          errorResponse(res, 404, `The user with id ${userId} not found`);
         }
       } else {
-        res.writeHead(400, { "Content-Type": "text/plain" });
-        res.end("Missing userId. A valid userId is required to delete a user.");
+        errorResponse(
+          res,
+          400,
+          "Missing userId. A valid userId is required to delete a user."
+        );
       }
+      break;
+    default:
+      errorResponse(res, 400, "Invalid method.");
   }
 }
