@@ -9,6 +9,12 @@ const config = {
   },
   resolve: {
     extensions: [".ts", ".js"],
+    fallback: {
+      http: require.resolve("stream-http"),
+      path: require.resolve("path-browserify"),
+      os: require.resolve("os-browserify/browser"),
+      crypto: require.resolve("crypto-browserify"),
+    },
   },
   module: {
     rules: [
