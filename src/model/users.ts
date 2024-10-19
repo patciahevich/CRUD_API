@@ -1,11 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
 
-export interface User {
-  id: string;
+export type NewUser = {
   name: string;
   age: number;
   hobbies: string[] | [];
-}
+};
+
+export type User = NewUser & {
+  id: string;
+};
 
 const users: User[] = [
   {
@@ -16,7 +19,7 @@ const users: User[] = [
   },
 ];
 
-export const createUser = (newUser: User): User => {
+export const createUser = (newUser: NewUser): User => {
   const user: User = {
     id: uuidv4(),
     name: newUser.name,
@@ -35,16 +38,16 @@ export const getUserById = (id: string): User | undefined => {
   return users.find((user) => user.id === id);
 };
 
-export const updateUser = (
-  id: string,
-  name: string,
-  age: number,
-  hobbies: string[]
-): User | null => {
-  const userIndex = users.findIndex((user) => user.id === id);
+export const updateUser = (userToUpdate: User): User | null => {
+  const userIndex = users.findIndex((user) => user.id === userToUpdate.id);
   if (userIndex === -1) return null;
 
-  const updatedUser = { id, name, age, hobbies };
+  const updatedUser = {
+    id: userToUpdate.id,
+    name: userToUpdate.name,
+    age: userToUpdate.age,
+    hobbies: userToUpdate.hobbies,
+  };
   users[userIndex] = updatedUser;
   return updatedUser;
 };
