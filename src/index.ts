@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 const server = http.createServer(async (req: IncomingMessage, res) => {
   try {
     if (req.url?.startsWith("/users")) {
-      userController(req, res);
+      await userController(req, res);
     } else {
       res.writeHead(404, { "Content-Type": "text/plain" });
       res.end(
