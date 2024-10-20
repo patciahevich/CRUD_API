@@ -44,7 +44,7 @@ export class UserManager {
     id: string,
     name: string,
     age: number,
-    hobbies: string[]
+    hobbies: string[],
   ): User | null {
     const userIndex = this.users.findIndex((user) => user.id === id);
     if (userIndex === -1) return null;
