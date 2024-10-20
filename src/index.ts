@@ -4,7 +4,7 @@ import { userController } from "./controller/userController";
 
 const PORT = process.env.PORT || 3000;
 
-const server = http.createServer(async (req: IncomingMessage, res) => {
+export const server = http.createServer(async (req: IncomingMessage, res) => {
   try {
     if (req.url?.startsWith("/users") && req.url?.split("/").length < 3) {
       await userController(req, res);
