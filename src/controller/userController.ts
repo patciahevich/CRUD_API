@@ -8,9 +8,9 @@ const userManager = new UserManager();
 
 export async function userController(
   req: IncomingMessage,
-  res: ServerResponse<IncomingMessage>,
+  res: ServerResponse<IncomingMessage>
 ) {
-  const userId = req.url?.split("/")[2];
+  const userId = req.url?.split("/")[3];
 
   switch (req.method) {
     case "GET":
@@ -19,7 +19,7 @@ export async function userController(
           errorResponse(
             res,
             400,
-            "Invalid userId. The userId must be a valid UUID.",
+            "Invalid userId. The userId must be a valid UUID."
           );
           return;
         }
@@ -51,7 +51,7 @@ export async function userController(
             errorResponse(
               res,
               400,
-              "Missing one or more required fields: name, age, hobbies",
+              "Missing one or more required fields: name, age, hobbies"
             );
             return;
           }
@@ -71,7 +71,7 @@ export async function userController(
           errorResponse(
             res,
             400,
-            "Invalid userId. The userId must be a valid UUID.",
+            "Invalid userId. The userId must be a valid UUID."
           );
           return;
         }
@@ -84,7 +84,7 @@ export async function userController(
             errorResponse(
               res,
               400,
-              "Missing one or more required fields: name, age, hobbies",
+              "Missing one or more required fields: name, age, hobbies"
             );
             return;
           }
@@ -105,7 +105,7 @@ export async function userController(
         errorResponse(
           res,
           400,
-          "Missing userId. A valid userId is required to update a user.",
+          "Missing userId. A valid userId is required to update a user."
         );
         return;
       }
@@ -117,7 +117,7 @@ export async function userController(
           errorResponse(
             res,
             400,
-            "Invalid userId. The userId must be a valid UUID.",
+            "Invalid userId. The userId must be a valid UUID."
           );
           return;
         }
@@ -135,7 +135,7 @@ export async function userController(
         errorResponse(
           res,
           400,
-          "Missing userId. A valid userId is required to delete a user.",
+          "Missing userId. A valid userId is required to delete a user."
         );
       }
       break;

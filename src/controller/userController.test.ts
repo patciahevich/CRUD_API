@@ -13,7 +13,7 @@ jest.mock("../response/response");
 jest.mock("../model/users");
 jest.mock("../utils/utils");
 
-const baseLink = "/users";
+const baseLink = "/api/users";
 
 describe("myModule tests", () => {
   let req: IncomingMessage;
@@ -59,7 +59,7 @@ describe("myModule tests", () => {
       expect(errorResponse).toHaveBeenCalledWith(
         res,
         400,
-        "Invalid userId. The userId must be a valid UUID.",
+        "Invalid userId. The userId must be a valid UUID."
       );
     });
 
@@ -75,7 +75,7 @@ describe("myModule tests", () => {
       expect(errorResponse).toHaveBeenCalledWith(
         res,
         404,
-        `User with ID ${userId} not found`,
+        `User with ID ${userId} not found`
       );
     });
 
@@ -118,7 +118,7 @@ describe("myModule tests", () => {
       expect(errorResponse).toHaveBeenCalledWith(
         res,
         400,
-        "Missing one or more required fields: name, age, hobbies",
+        "Missing one or more required fields: name, age, hobbies"
       );
     });
 
@@ -131,7 +131,7 @@ describe("myModule tests", () => {
       expect(errorResponse).toHaveBeenCalledWith(
         res,
         400,
-        "Invalid type of data",
+        "Invalid type of data"
       );
     });
   });
@@ -168,7 +168,7 @@ describe("myModule tests", () => {
       expect(errorResponse).toHaveBeenCalledWith(
         res,
         400,
-        "Invalid userId. The userId must be a valid UUID.",
+        "Invalid userId. The userId must be a valid UUID."
       );
     });
 
@@ -189,7 +189,7 @@ describe("myModule tests", () => {
       expect(errorResponse).toHaveBeenCalledWith(
         res,
         404,
-        `404 - User with ID ${userId} not found`,
+        `404 - User with ID ${userId} not found`
       );
     });
 
@@ -201,7 +201,7 @@ describe("myModule tests", () => {
       expect(errorResponse).toHaveBeenCalledWith(
         res,
         400,
-        "Missing userId. A valid userId is required to update a user.",
+        "Missing userId. A valid userId is required to update a user."
       );
     });
   });
@@ -235,7 +235,7 @@ describe("myModule tests", () => {
       expect(errorResponse).toHaveBeenCalledWith(
         res,
         400,
-        "Invalid userId. The userId must be a valid UUID.",
+        "Invalid userId. The userId must be a valid UUID."
       );
     });
 
@@ -253,7 +253,7 @@ describe("myModule tests", () => {
       expect(errorResponse).toHaveBeenCalledWith(
         res,
         404,
-        `The user with id ${userId} not found`,
+        `The user with id ${userId} not found`
       );
     });
 
@@ -265,7 +265,7 @@ describe("myModule tests", () => {
       expect(errorResponse).toHaveBeenCalledWith(
         res,
         400,
-        "Missing userId. A valid userId is required to delete a user.",
+        "Missing userId. A valid userId is required to delete a user."
       );
     });
   });

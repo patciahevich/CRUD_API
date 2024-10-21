@@ -18,29 +18,29 @@ There are 2 modes of running application (**_development_** and **_production_**
 
 `npm run start:prod` for production mode
 
-Access the API at **[http://localhost:4000/](http://localhost:4000/)** (you can change the port in your .env file).
+Access the API at **[http://localhost:4000/api/](http://localhost:4000/)** (you can change the port in your .env file).
 
 ### API Endpoints
 
-1. **POST /items**: Create a new item.
+1. **POST api/users**: Create a new item.
 
    - Request body: JSON object with item details.
    - Response: Newly created item with a unique identifier.
 
-2. **GET /items**: Retrieve a list of all items.
+2. **GET api/users**: Retrieve a list of all items.
 
    - Response: Array of items.
 
-3. **GET /items/{id}**: Retrieve a single item by its ID.
+3. **GET api/users/{id}**: Retrieve a single item by its ID.
 
    - Response: Item object or 404 if not found.
 
-4. **PUT /items/{id}**: Update an existing item by its ID.
+4. **PUT api/users/{id}**: Update an existing item by its ID.
 
    - Request body: JSON object with updated item details.
    - Response: Updated item object or 404 if not found.
 
-5. **DELETE /items/{id}**: Delete an item by its ID.
+5. **DELETE api/users/{id}**: Delete an item by its ID.
 
    - Response: Success message or 404 if not found.
 

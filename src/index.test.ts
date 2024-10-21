@@ -12,7 +12,7 @@ describe("HTTP Server Tests", () => {
       res.end(JSON.stringify({ data: "Some data" }));
     });
 
-    const response = await request(server).get("/users");
+    const response = await request(server).get("/api/users");
     expect(response.status).toBe(200);
   });
 
@@ -20,14 +20,14 @@ describe("HTTP Server Tests", () => {
     (userController as jest.Mock).mockImplementation((_, res) => {
       res.status = 404;
       res.end(
-        "404 - The requested resource does not exist. Please check the URL.",
+        "404 - The requested resource does not exist. Please check the URL."
       );
     });
 
-    const response = await request(server).get("/invalid/url");
+    const response = await request(server).get("/invalid/url/to/test");
     expect(response.status).toBe(404);
     expect(response.text).toBe(
-      "404 - The requested resource does not exist. Please check the URL.",
+      "404 - The requested resource does not exist. Please check the URL."
     );
   });
 
@@ -36,11 +36,11 @@ describe("HTTP Server Tests", () => {
       throw new Error();
     });
 
-    const response = await request(server).get("/users");
+    const response = await request(server).get("/api/users");
 
     expect(response.status).toBe(500);
     expect(response.text).toBe(
-      "Internal Server Error: Something went wrong. Please try again later.",
+      "Internal Server Error: Something went wrong. Please try again later."
     );
   });
 });
