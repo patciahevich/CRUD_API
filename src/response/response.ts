@@ -17,5 +17,4 @@ export function errorResponse(
 ) {
   res.writeHead(statusCode, { "Content-Type": "text/plain" });
   res.end(message);
-  return;
 }

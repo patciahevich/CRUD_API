@@ -21,14 +21,17 @@ export async function userController(
             400,
             "Invalid userId. The userId must be a valid UUID.",
           );
+          return;
         }
 
         const userToGet = userManager.getUserById(userId);
 
         if (!userToGet) {
           errorResponse(res, 404, `User with ID ${userId} not found`);
+          return;
         } else {
           successResponse(res, userToGet, 200);
+          return;
         }
       } else {
         const payload = userManager.getUsers();
@@ -50,12 +53,14 @@ export async function userController(
               400,
               "Missing one or more required fields: name, age, hobbies",
             );
+            return;
           }
 
           const payload = userManager.createUser(name, age, hobbies);
           successResponse(res, payload, 201);
         } catch {
           errorResponse(res, 400, "Invalid type of data");
+          return;
         }
       }
       break;
@@ -68,6 +73,7 @@ export async function userController(
             400,
             "Invalid userId. The userId must be a valid UUID.",
           );
+          return;
         }
 
         try {
@@ -80,6 +86,7 @@ export async function userController(
               400,
               "Missing one or more required fields: name, age, hobbies",
             );
+            return;
           }
 
           const payload = userManager.updateUser(userId, name, age, hobbies);
@@ -88,9 +95,11 @@ export async function userController(
             successResponse(res, payload, 200);
           } else {
             errorResponse(res, 404, `404 - User with ID ${userId} not found`);
+            return;
           }
         } catch {
           errorResponse(res, 400, "Invalid type of data");
+          return;
         }
       } else {
         errorResponse(
@@ -98,6 +107,7 @@ export async function userController(
           400,
           "Missing userId. A valid userId is required to update a user.",
         );
+        return;
       }
       break;
 
@@ -109,6 +119,7 @@ export async function userController(
             400,
             "Invalid userId. The userId must be a valid UUID.",
           );
+          return;
         }
 
         const payload = userManager.deleteUser(userId);
@@ -118,6 +129,7 @@ export async function userController(
           return;
         } else {
           errorResponse(res, 404, `The user with id ${userId} not found`);
+          return;
         }
       } else {
         errorResponse(
