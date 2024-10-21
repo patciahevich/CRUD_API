@@ -14,13 +14,13 @@ async function serverWork(req: IncomingMessage, res: ServerResponse) {
     } else {
       res.writeHead(404, { "Content-Type": "text/plain" });
       res.end(
-        "404 - The requested resource does not exist. Please check the URL."
+        "404 - The requested resource does not exist. Please check the URL.",
       );
     }
   } catch {
     res.writeHead(500, { "Content-Type": "text/plain" });
     res.end(
-      "Internal Server Error: Something went wrong. Please try again later."
+      "Internal Server Error: Something went wrong. Please try again later.",
     );
   }
 }
