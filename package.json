@@ -9,6 +9,7 @@
     "build": "webpack --mode production",
     "start:dev": "nodemon src/index.ts",
     "start:prod": "npm run build && node ./dist/bundle.js",
+    "multi": "nodemon src/multi.ts",
     "prettier": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint ."
   },
